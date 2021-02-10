@@ -38,6 +38,36 @@ public:
     virtual bool select(const std::string& s) const = 0;
 };
 
+class Select_Contains: public Select_Column{
+private:
+	std::stringname;
+public: 
+      Select_Contains(const Spreadsheet* sheet, const std::string& columnName, const std::string& name): Select_Column(sheet, columnName){
+this->name=name;
+}
+bool select(const std::string& s) const{ 
+return (s.find(name,0) !- string::npos);
+}
+};
+
+class Select_And : public Select_Column{
+private : 
+	Select* a= nullptr;
+	Select* b = nullptr;
+public:
+	Select_And(const Select*one, const Select* two){
+		a=one;
+		b=two;
+}
+~Select_And(){
+	delete a;
+	delete b;
+}
+bool select(const Spreadsheet* sheet, int row) const{
+	return a->select(sheet,row) && b->select(sheet,row);
+}
+
+
 class Select_Or: public Select_Column {
 private: 
 	Select* a = nullptr;
@@ -48,7 +78,7 @@ public:
 		b = two;
 	~Select_Or(){
 		delete a;
-		delte b;
+		delete b;
 	}
 	bool select(const Spreadsheet* sheet, int row) const{
 		return a->select(sheet,row) ||b->select(sheet, row);
