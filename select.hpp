@@ -38,4 +38,36 @@ public:
     virtual bool select(const std::string& s) const = 0;
 };
 
+class Select_Or: public Select_Column {
+private: 
+	Select* a = nullptr;
+	Select* b = nullptr;
+public:
+	Select_Or(const Select* one, const Select* two) {
+		a = one;
+		b = two;
+	~Select_Or(){
+		delete a;
+		delte b;
+	}
+	bool select(const Spreadsheet* sheet, int row) const{
+		return a->select(sheet,row) ||b->select(sheet, row);
+	}
+};
+
+class Select_Not: public Select_Column {
+private:
+	Select* a = nullptr;
+public:
+	Select_Not(const Select* one) {
+		a = one;
+	}
+	~Select_Not(){
+		delete a;
+	}
+	bool select(const Spreadsheet* sheet, int row) const{
+		return !(a->select(sheet,row));
+};
+		
+
 #endif //__SELECT_HPP__
