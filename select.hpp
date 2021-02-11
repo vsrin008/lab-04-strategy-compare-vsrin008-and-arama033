@@ -40,13 +40,13 @@ public:
 
 class Select_Contains: public Select_Column{
 private:
-	std::stringname;
+	std::string name;
 public: 
-      Select_Contains(const Spreadsheet* sheet, const std::string& columnName, const std::string& name): Select_Column(sheet, columnName){
+      Select_Contains(const Spreadsheet* sheet, const std::string& columnName, const std::string& name): Select_Column(sheet&, columnName){
 this->name=name;
 }
 bool select(const std::string& s) const{ 
-return (s.find(name,0) !- string::npos);
+return (s.find(name,0) != string::npos);
 }
 };
 
@@ -76,6 +76,7 @@ public:
 	Select_Or(const Select* one, const Select* two) {
 		a = one;
 		b = two;
+        }
 	~Select_Or(){
 		delete a;
 		delete b;
